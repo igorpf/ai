@@ -28,16 +28,16 @@ class Controller:
 	def output(self, episode, performance):
 		print "Performance do episodio #%d: %f" % (episode, performance)
 	
-		if episode > 0:
+		if episode > 0 and episode % 10 == 0:
 			output = open("./params/%s.txt" % datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d%H%M%S'), "w+")
 			for parameter in self.parameters:
 				output.write(str(parameter) + "\n")
 
-    #FUNCAO A SER COMPLETADA. Deve utilizar os pesos para calcular as funcoes de preferencia Q para cada acao e retorna
-    #1 caso a acao desejada seja direita, 2 caso seja esquerda, 3 caso seja nula, e 4 caso seja atirar
+	#FUNCAO A SER COMPLETADA. Deve utilizar os pesos para calcular as funcoes de preferencia Q para cada acao e retorna
+	#1 caso a acao desejada seja direita, 2 caso seja esquerda, 3 caso seja nula, e 4 caso seja atirar
 	def take_action(self, state):
 
-	#FUNCAO A SER COMPLETADA. Deve calcular features expandidas do estados
+	#FUNCAO A SER COMPLETADA. Deve calcular features estados
 	def compute_features(self):
 
 	#FUNCAO A SER COMPLETADA. Deve atualizar a propriedade self.parameters
