@@ -21,45 +21,19 @@ class Bots:
 			self.command_counter += 1
 			return self.last_command
 		else:
-			rand = randint(0,5)
+			rand = randint(0,4)
 			self.last_command = rand
 			self.command_counter = 0
 			return rand
 
 	def take_ninja_action(self,state):
-		if (state.dist_arrow < 150 or state.arrow_sight == True):
-			if self.command_counter < 10: 
-				self.command_counter += 1
-				if self.command_counter == 10:
-					self.ninja_dodge = True
-				return self.last_command
-			else:
-				rand = randint(0,1)
-				if rand == 0:
-					return 1
-				else:
-					self.last_command = rand
-					self.command_counter = 0
-					return 2
-		elif self.ninja_dodge == True:
-			if self.command_counter < 10: 
-				self.command_counter += 1
-				if self.command_counter == 10:
-					self.ninja_dodge = False
-				return 5
+		if state.arrow_sight == True or state.dist_arrow < 100:
+			return 1 #1 - direita - try to evade
 		elif state.enemy_sight == True:
-			return 4
-
-		else:
-			rand = randint(0,1)
-			if rand == 1:
-				rand = 2
-			else:
-				rand = 5
-			self.last_command = rand
-			self.command_counter = 0
-			return rand
-
+			return 4 #4 - atira - try to kill
+		else: 
+			return 2 #2 - esquerda - try to find the player	
+		
 
 	def take_action(self,state):
 		if self.difficulty == 0: #lazy_bot

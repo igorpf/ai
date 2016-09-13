@@ -130,12 +130,10 @@ def runaway_bullet(bullet_pos):
 		return False
 
 def gladiator_velocity(body, gravity, damping, dt):
-	global gladiator_speed
 	body.velocity =  Vec2d(1,0).rotated(body.angle).normalized() * 150
 
 def enemy_velocity(body, gravity, damping, dt):
-	global enemy_speed
-	body.velocity =  Vec2d(1,0).rotated(body.angle).normalized() * enemy_speed
+	body.velocity =  Vec2d(1,0).rotated(body.angle).normalized() * 150
 
 def bullet_velocity(body, gravity, damping, dt):	
 	body.velocity = body.velocity.normalized() * 300
@@ -332,14 +330,8 @@ def game(mode, load, bot_type):
 			e_bullet_body = None
 			beg_time = time.time()
 			actions = 0
-			e_forward = 0
 
 			while running:
-				e_forward +=1
-				if e_forward >= 10:
-					enemy_speed = 0
-					e_forward = 0
-
 				if mode == "evaluate":
 					for event in pygame.event.get():
 						if event.type == QUIT or event.type == KEYDOWN and (event.key in [K_ESCAPE, K_q]):
@@ -396,6 +388,7 @@ def game(mode, load, bot_type):
 
 				action = controller.take_action(
 					AI.State(dist_enemy, enemy_in_fov, g_distance_to_bullet, g_bullet_in_fov))
+				
 				controller.state = AI.State(dist_enemy, enemy_in_fov, g_distance_to_bullet, g_bullet_in_fov)
 				
 				if action == 4 and gladiator_shot == False:
@@ -433,9 +426,6 @@ def game(mode, load, bot_type):
 					space.add(e_bullet_body, e_bullet_shape)
 					enemy_bullet = e_bullet_body
 					enemy_shot = True
-				elif action_bot == 5:
-					e_forward = 1
-					enemy_speed = 150
 				else:
 					change_angle(action_bot, enemy_body)
 
