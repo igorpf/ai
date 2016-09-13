@@ -19,7 +19,7 @@ class Controller:
 		else:
 			params = open(load, 'r')
 			weights = params.read().split("\n")
-			self.parameters = [float(x.strip()) for x in weights[0:-1]]
+			self.parameters = [float(x.strip()) for x in weights]
 			if len(self.parameters) != 4*len(self.compute_features()):
 				print "Numero incorreto de pesos no arquivo informado"
 				exit()

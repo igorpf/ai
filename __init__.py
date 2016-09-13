@@ -1,6 +1,5 @@
 from sys import argv
 from Simulator.simulator import game
-from Simulator.basinhopping import main
 
 if __name__ == '__main__':
 
@@ -17,7 +16,6 @@ if __name__ == '__main__':
                     game("learn", argv[3], argv[2])
                 else:
                     print "\n\nGerando pesos aleatorios."
-                    #main()                    
                     game("learn", None, argv[2])
             elif argv[1] == "evaluate":
                 if len(argv) == 4:
