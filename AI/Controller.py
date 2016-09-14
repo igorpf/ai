@@ -38,7 +38,7 @@ class Controller:
 
 	#FUNCAO A SER COMPLETADA. Deve calcular features estados
 	def compute_features(self):
-		pass
+		prox = (1 / state.dist_enemy) * state.enemy_sight
 
 	#FUNCAO A SER COMPLETADA. Deve atualizar a propriedade self.parameters
 	def update(self, episode, performance):
