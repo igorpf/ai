@@ -40,6 +40,7 @@ class Controller:
 	#FUNCAO A SER COMPLETADA. Deve utilizar os pesos para calcular as funcoes de preferencia Q para cada acao e retorna
 	#1 caso a acao desejada seja direita, 2 caso seja esquerda, 3 caso seja nula, e 4 caso seja atirar
 	def take_action(self, state):
+		self.compute_features()
 		features = self.features
 		indexes = iter([i for i in range(len(self.parameters))])
 		#enemy_not_on_sight, prox, prox_arrow
@@ -62,10 +63,11 @@ class Controller:
 	#FUNCAO A SER COMPLETADA. Deve calcular features estados
 	def compute_features(self):
 		self.features['prox'] = (1 / self.state.dist_enemy) * self.state.enemy_sight 			#Calcula proximidade do inimigo - General
-		self.features['prox'] =  2 * self.features['prox']/10 - 1
+		#self.features['prox'] =  2 * self.features['prox']/10 - 1
 		self.features['enemy_not_on_sight'] = 1 - self.state.enemy_sight                        #Caso inimigo não esteja no campo de visão, incentiva a procurá-lo - General
 		self.features['prox_arrow'] = (1 / self.state.dist_arrow) * self.state.arrow_sight  	# Calcula proximidade de um tiro do inimigo - Defense
-		self.features['prox_arrow'] = 2*self.features['prox_arrow'] / 10 - 1
+		#self.features['prox_arrow'] = 2*self.features['prox_arrow'] / 10 - 1
+
 		return self.features
 	#FUNCAO A SER COMPLETADA. Deve atualizar a propriedade self.parameters
 	def update(self, episode, performance):
