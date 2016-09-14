@@ -13,6 +13,7 @@ class Controller:
 
 	def __init__(self, load, state):
 		self.initialize_parameters(load, state)
+		self.features = dict()
 
 	def initialize_parameters(self, load, state):
 		self.state = state
@@ -39,15 +40,9 @@ class Controller:
 
 	#FUNCAO A SER COMPLETADA. Deve calcular features estados
 	def compute_features(self):
-		prox = (1 / self.state.dist_enemy) * self.state.enemy_sight 			#Calcula proximidade do inimigo - General
-		if self.state.enemy_sight == 0:  								#Caso inimigo não esteja no campo de visão, incentiva a procurá-lo - General
-			enemy_not_on_sight = 1
-		else:
-			enemy_not_on_sight = 0
-		prox_arrow = (1 / self.state.dist_arrow) * self.state.arrow_sight  	# Calcula proximidade de um tiro do inimigo - Defense
-
-
-
+		self.features['prox'] = (1 / self.state.dist_enemy) * self.state.enemy_sight 			#Calcula proximidade do inimigo - General
+		self.features['enemy_non_on_sight'] = 1 - self.state.enemy_sight                        #Caso inimigo não esteja no campo de visão, incentiva a procurá-lo - General
+		self.features['prox_arrow'] = (1 / self.state.dist_arrow) * self.state.arrow_sight  	# Calcula proximidade de um tiro do inimigo - Defense
 
 	#FUNCAO A SER COMPLETADA. Deve atualizar a propriedade self.parameters
 	def update(self, episode, performance):
