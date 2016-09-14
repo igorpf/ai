@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from sys import argv
 from Simulator.simulator import game
 

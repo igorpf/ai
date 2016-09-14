@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .State import State
 from random import randint
 from parser import parse_weights
