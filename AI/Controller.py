@@ -36,19 +36,22 @@ class Controller:
 	#FUNCAO A SER COMPLETADA. Deve utilizar os pesos para calcular as funcoes de preferencia Q para cada acao e retorna
 	#1 caso a acao desejada seja direita, 2 caso seja esquerda, 3 caso seja nula, e 4 caso seja atirar
 	def take_action(self, state):
-		features = self.compute_features() #to calculando a func de novo, mas podia pegar o self.features
-		qLeft = self.parameters[0] + features['prox'] * self.parameters[1]
-		qRight = self.parameters[2] + features['prox'] * self.parameters[3]
-		qShoot = self.parameters[4] + features['prox'] * self.parameters[5]
-		qNoAction = self.parameters[6] + features['prox'] * self.parameters[7]
+		features = self.features
+		indexes = iter([i for i in range(len(self.parameters))])
+		qLeft = self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]
+		qRight = self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]
+		qShoot = self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]
+		qNoAction = self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]
 
-		if qLeft >= qRight and qLeft >= qShoot and qLeft >= qNoAction:
+		q = [qLeft, qRight, qShoot, qNoAction]
+		maxQ = max(q)
+		if  maxQ == qLeft:
 			return 2
-		elif qRight >= qLeft and qRight >= qShoot and qRight >= qNoAction:
+		elif maxQ == qRight:
 			return 1
-		elif qShoot >= qLeft and qShoot >= qRight and qShoot >= qNoAction:
+		elif maxQ == qShoot:
 			return 4
-		elif qNoAction >= qLeft and qNoAction >= qRight and qNoAction >= qShoot:
+		elif maxQ == qNoAction:
 			return 3
 
 	#FUNCAO A SER COMPLETADA. Deve calcular features estados
