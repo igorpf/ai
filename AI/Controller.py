@@ -39,14 +39,14 @@ class Controller:
 
 	#FUNCAO A SER COMPLETADA. Deve calcular features estados
 	def compute_features(self):
-		prox = (1 / state.dist_enemy) * state.enemy_sight 			#Calcula proximidade do inimigo - General
-		if state.enemy_sight == 0:  								#Caso inimigo não esteja no campo de visão, incentiva a procurá-lo - General
+		prox = (1 / self.state.dist_enemy) * self.state.enemy_sight 			#Calcula proximidade do inimigo - General
+		if self.state.enemy_sight == 0:  								#Caso inimigo não esteja no campo de visão, incentiva a procurá-lo - General
 			enemy_not_on_sight = 1
 		else:
 			enemy_not_on_sight = 0
-		prox_arrow = (1 / state.dist_arrow) * state.arrow_sight  	# Calcula proximidade de um tiro do inimigo - Defense
+		prox_arrow = (1 / self.state.dist_arrow) * self.state.arrow_sight  	# Calcula proximidade de um tiro do inimigo - Defense
 
-		
+
 
 
 	#FUNCAO A SER COMPLETADA. Deve atualizar a propriedade self.parameters
