@@ -15,7 +15,7 @@ class Controller:
 
 	def __init__(self, load, state):
 		self.features = dict()
-		self.best_perfomance = 0
+		self.best_performance = 0
 		self.initialize_parameters(load, state)
 
 
@@ -76,9 +76,9 @@ class Controller:
 		range = 0.5
 		scale= 0.1
 
-		if performance > self.best_perfomance:
+		if performance > self.best_performance:
 			for p in self.parameters:
-				l+= [scale*(p+(rand.random()-range))]
-			best_performance = performance
-			#print l
+				l+= [p+(scale*(rand.random()-range))]
+			#print "Performance:", performance, "Best: ", self.best_performance
+			self.best_performance = performance
 			self.parameters = l
