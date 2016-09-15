@@ -67,7 +67,7 @@ class Controller:
 		self.features['enemy_not_on_sight'] = 1 - self.state.enemy_sight                        #Caso inimigo não esteja no campo de visão, incentiva a procurá-lo - General
 		self.features['prox_arrow'] = (1 / self.state.dist_arrow) * self.state.arrow_sight  	# Calcula proximidade de um tiro do inimigo - Defense
 		self.features['enemy_close'] = (1 / self.state.dist_enemy) * self.features['enemy_not_on_sight']      #tentar evitar colisões quando ele persegue o inimigo
-		#print self.features
+		#Todo: feature pra escapar da bala
 		return self.features
 	#FUNCAO A SER COMPLETADA. Deve atualizar a propriedade self.parameters
 	def update(self, episode, performance):
@@ -79,6 +79,7 @@ class Controller:
 		if performance > self.best_performance:
 			for p in self.parameters:
 				l+= [p+(scale*(rand.random()-range))]
-			#print "Performance:", performance, "Best: ", self.best_performance
+
+			print l  #Só pra ficar visível quando melhorou
 			self.best_performance = performance
 			self.parameters = l
