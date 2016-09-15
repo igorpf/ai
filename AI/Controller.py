@@ -15,7 +15,7 @@ class Controller:
 
 	def __init__(self, load, state):
 		self.features = dict()
-		self.best_perfomance = -0.5
+		self.best_perfomance = 0
 		self.initialize_parameters(load, state)
 
 
@@ -42,12 +42,13 @@ class Controller:
 	def take_action(self, state):
 		self.compute_features()
 		features = self.features
+
 		indexes = iter([i for i in range(len(self.parameters))])
 		#enemy_not_on_sight, prox, prox_arrow
-		qLeft = features['enemy_not_on_sight'] * self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]+ features['prox_arrow'] * self.parameters[indexes.next()]
-		qRight = features['enemy_not_on_sight'] * self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]+ features['prox_arrow'] * self.parameters[indexes.next()]
-		qShoot = features['enemy_not_on_sight'] * self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]+ features['prox_arrow'] * self.parameters[indexes.next()]
-		qNoAction = features['enemy_not_on_sight'] * self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]+ features['prox_arrow'] * self.parameters[indexes.next()]
+		qLeft = features['enemy_not_on_sight'] * self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]+ features['prox_arrow'] * self.parameters[indexes.next()]+ features['enemy_close'] * self.parameters[indexes.next()]
+		qRight = features['enemy_not_on_sight'] * self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]+ features['prox_arrow'] * self.parameters[indexes.next()]+ features['enemy_close'] * self.parameters[indexes.next()]
+		qShoot = features['enemy_not_on_sight'] * self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]+ features['prox_arrow'] * self.parameters[indexes.next()]+ features['enemy_close'] * self.parameters[indexes.next()]
+		qNoAction = features['enemy_not_on_sight'] * self.parameters[indexes.next()] + features['prox'] * self.parameters[indexes.next()]+ features['prox_arrow'] * self.parameters[indexes.next()]+ features['enemy_close'] * self.parameters[indexes.next()]
 
 		q = [qLeft, qRight, qShoot, qNoAction]
 		maxQ = max(q)
@@ -63,18 +64,21 @@ class Controller:
 	#FUNCAO A SER COMPLETADA. Deve calcular features estados
 	def compute_features(self):
 		self.features['prox'] = (1 / self.state.dist_enemy) * self.state.enemy_sight 			#Calcula proximidade do inimigo - General
-		#self.features['prox'] =  2 * self.features['prox']/10 - 1
 		self.features['enemy_not_on_sight'] = 1 - self.state.enemy_sight                        #Caso inimigo não esteja no campo de visão, incentiva a procurá-lo - General
 		self.features['prox_arrow'] = (1 / self.state.dist_arrow) * self.state.arrow_sight  	# Calcula proximidade de um tiro do inimigo - Defense
-		#self.features['prox_arrow'] = 2*self.features['prox_arrow'] / 10 - 1
-
+		self.features['enemy_close'] = (1 / self.state.dist_enemy) * self.features['enemy_not_on_sight']      #tentar evitar colisões quando ele persegue o inimigo
+		#print self.features
 		return self.features
 	#FUNCAO A SER COMPLETADA. Deve atualizar a propriedade self.parameters
 	def update(self, episode, performance):
 		l = list()
 
 		range = 0.5
+		scale= 0.1
+
 		if performance > self.best_perfomance:
 			for p in self.parameters:
-				l+= [p+(rand.random()-range)]
-		self.parameters = l
+				l+= [scale*(p+(rand.random()-range))]
+			best_performance = performance
+			#print l
+			self.parameters = l
