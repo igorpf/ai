@@ -17,7 +17,7 @@ class Controller:
 		self.features = dict()
 		self.best_performance = 0
 		self.initialize_parameters(load, state)
-
+		self.params_buffer = []
 
 	def initialize_parameters(self, load, state):
 		self.state = state
@@ -71,15 +71,16 @@ class Controller:
 		return self.features
 	#FUNCAO A SER COMPLETADA. Deve atualizar a propriedade self.parameters
 	def update(self, episode, performance):
+		#print "Params", self.parameters, "\n Buffer: ", self.params_buffer
 		l = list()
-
 		range = 0.5
-		scale= 0.1
-
+		scale = 0.1
+		for p in self.parameters: #gera aleatoriamente novos parametros para a próxima iteração
+			l += [p + (scale * (rand.random() - range))]
 		if performance > self.best_performance:
-			for p in self.parameters:
-				l+= [p+(scale*(rand.random()-range))]
-
-			print l  #Só pra ficar visível quando melhorou
+			self.params_buffer = self.parameters  # guarda o que aprendeu até agora
 			self.best_performance = performance
-			self.parameters = l
+		else: #se não ganhou, volta pro que tinha de melhor até agora
+			self.parameters = self.params_buffer
+
+		self.parameters = l  # troca os parametros
