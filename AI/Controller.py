@@ -17,7 +17,7 @@ class Controller:
 		self.features = dict()
 		self.best_performance = 0
 		self.initialize_parameters(load, state)
-		self.params_buffer = []
+
 
 	def initialize_parameters(self, load, state):
 		self.state = state
@@ -26,6 +26,7 @@ class Controller:
 			print self.parameters
 		else:
 			self.parameters = parse_weights(4*len(self.compute_features()), load)
+		self.params_buffer = self.parameters
 
 	def output(self, episode, performance):
 		print "Performance do episodio #%d: %f" % (episode, performance)
@@ -34,8 +35,12 @@ class Controller:
 			if not os.path.exists("./params"):
 				os.makedirs("./params")
 			output = open("./params/%s.txt" % datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d%H%M%S'), "w+")
-			for parameter in self.parameters:
-				output.write(str(parameter) + "\n")
+			if performance > self.best_performance: #pra não printar os parametros quando piorou a performance
+				for parameter in self.parameters:
+					output.write(str(parameter) + "\n")
+			else:
+				for parameter in self.params_buffer:
+					output.write(str(parameter) + "\n")
 
 	#FUNCAO A SER COMPLETADA. Deve utilizar os pesos para calcular as funcoes de preferencia Q para cada acao e retorna
 	#1 caso a acao desejada seja direita, 2 caso seja esquerda, 3 caso seja nula, e 4 caso seja atirar
